@@ -3,6 +3,7 @@ const cors = require("cors")
 const { join } = require("path")
 const listEndpoints = require("express-list-endpoints")
 const mongoose = require("mongoose")
+const dotenv = require("dotenv")
 
 const studentsRouter = require("./services/students/index")
 const projectsRouter = require("./services/projects/index")
@@ -14,6 +15,8 @@ const {
 } = require("./errorHandler")
 
 const server = express()
+
+dotenv.config();
 
 const PORT = process.env.PORT || 8080
 
@@ -34,14 +37,20 @@ server.use(genericErrorHandler)
 
 console.log(listEndpoints(server))
 
+
+
+const url =
+  "mongodb+srv://ermander:ermanderDB@cluster0.lkaow.azure.mongodb.net/Cluster0?retryWrites=true&w=majority";
 mongoose
-  .connect(process.env.MONGODB_URL || 'http://localhost:27017', {
+  .connect(url || "http://localhost:27017/students", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(
-    server.listen(PORT, () => {
-      console.log("Running on port", PORT)
+    server.listen(port, () => {
+      console.log(`working on port ${port}`);
     })
-  )
-  .catch((err) => console.log(err))
+  );
+mongoose.connection.on("connected", () => {
+  console.log("connected to atlas");
+});
