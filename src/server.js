@@ -47,8 +47,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(
-    server.listen(port, () => {
-      console.log(`working on port ${port}`);
+    server.listen(PORT, () => {
+      console.log(`working on port ${PORT}`);
     })
   );
 mongoose.connection.on("connected", () => {
