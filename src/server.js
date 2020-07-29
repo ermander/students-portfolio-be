@@ -34,14 +34,13 @@ server.use(genericErrorHandler)
 
 console.log(listEndpoints(server))
 
-mongoose
-  .connect("mongodb://localhost:27017/students", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(
-    server.listen(port, () => {
-      console.log("Running on port", port)
-    })
-  )
-  .catch((err) => console.log(err))
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://ermander:ermanderDB@cluster0.lkaow.azure.mongodb.net/students-portfolioBE?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
