@@ -31,6 +31,7 @@
     "mongoose-autopopulate": "^0.12.2",
     "nodemon": "^2.0.4",
     "query-to-mongo": "^0.10.1",
+    "serve": "^11.3.2",
     "validator": "^13.1.1"
   }
 }

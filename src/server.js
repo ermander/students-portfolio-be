@@ -15,6 +15,7 @@ const {
 
 const server = express()
 
+const PORT = process.env.PORT || 8080
 
 const staticFolderPath = join(__dirname, "../public")
 server.use(express.static(staticFolderPath))
@@ -34,13 +35,13 @@ server.use(genericErrorHandler)
 console.log(listEndpoints(server))
 
 mongoose
-  .connect(process.env.MONGODB_URL, {
+  .connect(process.env.MONGODB_URL || 'http://localhost:27017', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(
-    server.listen(port, () => {
-      console.log("Running on port", port)
+    server.listen(PORT, () => {
+      console.log("Running on port", PORT)
     })
   )
   .catch((err) => console.log(err))
