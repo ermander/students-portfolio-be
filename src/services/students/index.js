@@ -2,6 +2,7 @@ const express = require("express")
 const q2m = require("query-to-mongo")
 
 const studentSchema = require("./schema.js")
+const projectsSchema = require("../projects/schema.js")
 
 const studentsRouter = express.Router()
 
@@ -37,6 +38,17 @@ studentsRouter.get("/:id", async (req, res, next) => {
   } catch (error) {
     console.log(error)
     next("While reading students list a problem occurred!")
+  }
+})
+
+studentsRouter.get("/:id/projects", async (req, res, next) => {
+  
+  let studentProjects = await projectsSchema.find({studentId: req.params.id})
+
+  if (studentProjects) {
+      res.send(studentProjects)
+  } else {
+      res.send(400).send("No projects for this student.")
   }
 })
 
