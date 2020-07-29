@@ -15,7 +15,6 @@ const {
 
 const server = express()
 
-const port = process.env.PORT
 
 const staticFolderPath = join(__dirname, "../public")
 server.use(express.static(staticFolderPath))
@@ -35,7 +34,7 @@ server.use(genericErrorHandler)
 console.log(listEndpoints(server))
 
 mongoose
-  .connect("mongodb+srv://ermander:ermanderDB@cluster0.lkaow.azure.mongodb.net/test", {
+  .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
