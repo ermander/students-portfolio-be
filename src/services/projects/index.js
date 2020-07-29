@@ -1,5 +1,6 @@
 const express = require("express")
 const projectsSchema = require("./schema.js")
+const studentSchema = require("../students/schema")
 
 const projectsRouter = express.Router()
 
@@ -33,6 +34,9 @@ projectsRouter.post("/", async (req, res, next) => {
   try {
         const newProject = new projectsSchema(req.body)
         const { _id } = await newProject.save()
+        await studentSchema.findByIdAndUpdate(req.body.studentId, {
+          $push: { projects: _id }
+        })
         res.status(201).send(_id)
     }
     catch (error) {

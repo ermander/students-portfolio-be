@@ -39,9 +39,14 @@ const studentSchema = new Schema(
        image: {
          type: String,
          required: true
-       }   
+       },
+       projects: [
+         {
+           type: Schema.Types.ObjectId, ref: "Projects"
+         }
+       ]
 },
 { timestamps: true }
 )
 const StudentsModel = model("Students", studentSchema)
-module.exports = model("students", studentSchema)
+module.exports = model("Students", studentSchema)

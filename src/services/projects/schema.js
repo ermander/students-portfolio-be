@@ -36,4 +36,4 @@ const projectsSchema = new Schema (
 )
 projectsSchema.plugin(mongooseAutoPopulate)
 const ProjectsModel = model("Projects", projectsSchema)
-module.exports = model("projects", projectsSchema)
+module.exports = model("Projects", projectsSchema)

@@ -27,7 +27,7 @@ studentsRouter.get("/", async (req, res, next) => {
 studentsRouter.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id
-    const student = await studentSchema.findById(id)
+    const student = await (studentSchema.findById(id).populate("projects"))
     if (student) {
       res.send(student)
     } else {
