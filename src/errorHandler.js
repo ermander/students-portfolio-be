@@ -8,6 +8,7 @@ const badRequestHandler = (err, req, res, next) => {
   
   const notFoundHandler = (err, req, res, next) => {
     if (err.httpStatusCode === 404) {
+      console.log(err)
       res.status(404).send(err.message || "Resource not found!")
     }
     next(err)
@@ -17,6 +18,7 @@ const badRequestHandler = (err, req, res, next) => {
   const genericErrorHandler = (err, req, res, next) => {
     if (!res.headersSent) {
       // checks if another error middleware already sent a response
+      console.log(err)
       res.status(err.httpStatusCode || 500).send(err.message)
     }
   }

@@ -1,5 +1,28 @@
 const express = require("express")
 const q2m = require("query-to-mongo")
+const multer = require("multer");
+const fs = require("fs-extra");
+const path = require("path");
+const upload = multer({});
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+}); 
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'students_avatar',
+    format: async (req, file) => 'png' // supports promises as well
+  },
+});
+
+ 
+const parser = multer({ storage: storage });
 
 const studentSchema = require("./schema.js")
 const projectsSchema = require("../projects/schema.js")
@@ -61,6 +84,13 @@ studentsRouter.post("/", async (req, res, next) => {
     catch (error) {
     next(error)
   }
+})
+
+studentsRouter.post("/:id/images", parser.single("avatar"), async (req, res, next) => {
+  await studentSchema.findByIdAndUpdate(req.params.id, {
+    image:  req.file.path
+  })
+  res.send(req.file)
 })
 
 studentsRouter.put("/:id", async (req, res, next) => {
