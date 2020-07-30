@@ -38,7 +38,7 @@ const studentSchema = new Schema(
           },
        image: {
          type: String,
-         required: true
+         required: false
        },
        projects: [
          {
